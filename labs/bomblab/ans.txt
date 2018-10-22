@@ -1,0 +1,7 @@
+Wow! Brazil is big.
+0 1 1 2 3 5
+0 s 70
+24 2 DontRepeatYourself
+5 115
+1 2 3 4 6 5
+50
