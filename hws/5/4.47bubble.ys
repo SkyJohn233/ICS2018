@@ -1,0 +1,89 @@
+# function bubble_p
+bubble_p:
+	pushl %ebp
+	rrmovl %esp,%ebp
+	pushl %esi
+	pushl %ebx
+	pushl %edi
+	mrmovl 8(%ebp),%edx # data
+	mrmovl 12(%ebp),%ecx # count
+	rrmovl %ecx,%ebx
+	irmovl $1,%esi
+	subl %esi,%ebx # last=count-1
+	rrmovl %ebx,%esi
+	andl %esi,%esi
+	jle done_b
+loop1:
+	andl %ecx,%ecx # i=0
+	rrmovl %ebx,%esi
+	subl %ecx,%esi
+	jle end1
+loop2:
+	 rrmovl %edx,%esi 
+	 rrmovl %ecx,%edi 
+	 addl %edi,%edi
+	 addl %edi,%edi # 4*i
+	 addl %edi,%esi # data+4*i
+	 mrmovl 4(%esi),%edi # data[i+1]
+	 mrmovl (%esi),%eax # data[i]
+	 subl %edi,%eax
+	 jle end2 # data[i]<=data[i+1]
+	 rmmovl %eax,4(%esi)
+	 rmmovl %edi,(%esi)
+end2:
+	irmovl $1,%esi
+	addl %esi,%ecx # ++i
+	rrmovl %ebx,%esi
+	subl %ecx,%esi
+	jg loop2
+end1:
+	irmovl $1,%esi
+	subl %esi,%ebx # --last
+	rrmovl %ebx,%esi
+	andl %esi,%esi
+	jg loop1
+done_b:
+	popl %edi
+	popl %ebx
+	popl %esi
+	rrmovl %ebp,%esp
+	popl %ebp
+
+#function check
+check:
+	pushl %ebp
+	rrmovl %esp,%ebp
+	pushl %esi
+	pushl %ebx
+	pushl %edi
+	mrmovl 8(%ebp),%edx # data
+	mrmovl 12(%ebp),%ecx # count
+	irmovl $1,%esi
+	subl %esi,%ecx # count-1
+	andl %eax,%eax #mistake=0
+	andl %ebx,%ebx #i
+	rrmovl %ecx,%esi
+	subl %ebx,%esi
+	jle done_c
+loop:
+	rrmovl %ebx,%edi # i
+	addl %edi,%edi
+	addl %edi,%edi # 4*i
+	addl %edx,%edi
+	mrmovl (%edi),%esi # data[i]
+	mrmovl 4(%edi),%edi # data[i+1]
+	subl %edi,%esi
+	jle end
+	irmovl $1,%eax
+end:
+	irmovl $1,%esi
+	addl %esi,%ebx
+	rrmovl %ecx,%esi
+	subl %ebx,%esi
+	jg loop
+done_c:
+	popl %edi
+	popl %ebx
+	popl %esi
+	rrmovl %ebp,%esp
+	popl %ebp
