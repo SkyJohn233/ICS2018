@@ -5,8 +5,8 @@ bubble_p:
 	pushl %esi
 	pushl %ebx
 	pushl %edi
-	mrmovl 8(%ebp),%edx # data
-	mrmovl 12(%ebp),%ecx # count
+	mrmovl 20(%ebp),%edx # data
+	mrmovl 24(%ebp),%ecx # count
 	rrmovl %ecx,%ebx
 	irmovl $1,%esi
 	subl %esi,%ebx # last=count-1
@@ -14,7 +14,7 @@ bubble_p:
 	andl %esi,%esi
 	jle done_b
 loop1:
-	andl %ecx,%ecx # i=0
+	xorl %ecx,%ecx # i=0
 	rrmovl %ebx,%esi
 	subl %ecx,%esi
 	jle end1
@@ -56,8 +56,8 @@ check:
 	pushl %esi
 	pushl %ebx
 	pushl %edi
-	mrmovl 8(%ebp),%edx # data
-	mrmovl 12(%ebp),%ecx # count
+	mrmovl 20(%ebp),%edx # data
+	mrmovl 24(%ebp),%ecx # count
 	irmovl $1,%esi
 	subl %esi,%ecx # count-1
 	andl %eax,%eax #mistake=0
