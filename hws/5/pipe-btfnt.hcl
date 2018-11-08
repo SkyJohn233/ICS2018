@@ -139,7 +139,7 @@ intsig W_valM  'mem_wb_curr->valm'	# Memory M value
 ## What address should instruction be fetched at
 int f_pc = [
 	# Mispredicted branch.  Fetch at incremented PC
-	M_icode == IJXX && !M_Cnd : M_valA;
+	# M_icode == IJXX && !M_Cnd : M_valA;
 	#change1 begin
 	M_icode == IJXX && M_ifun != UNCOND && !M_cnd && M_valE < M_valA:M_valA;
 	M_icode == IJXX && M_ifun != UNCOND && M_cnd && M_valE >= M_valA:M_valE;
@@ -357,13 +357,13 @@ bool D_stall =
 
 bool D_bubble =
 	# Mispredicted branch
-	(E_icode == IJXX && !e_Cnd) ||
+	# (E_icode == IJXX && !e_Cnd) ||
 	# BBTFNT: This condition will change
 	#change 5 begin
 	(
 	E_icode == IJXX && E_ifun != UNCOND && !e_Cnd && E_valC < E_valA ||
 	E_icode == IJXX && E_ifun != UNCOND &&  e_cnd && E_valC >= E_valA
-	)
+	) &&
 	#change 5 end
 	# Stalling at fetch while ret passes through pipeline
 	# but not condition for a load/use hazard
@@ -375,13 +375,13 @@ bool D_bubble =
 bool E_stall = 0;
 bool E_bubble =
 	# Mispredicted branch
-	(E_icode == IJXX && !e_Cnd) ||
+	# (E_icode == IJXX && !e_Cnd) ||
 	# BBTFNT: This condition will change
 	#change 6 begin
 	(
 	E_icode == IJXX && E_ifun != UNCOND && !e_Cnd && E_valC < E_valA ||
 	E_icode == IJXX && E_ifun != UNCOND &&  e_cnd && E_valC >= E_valA
-	)
+	) ||
 	#change 6 end
 	# Conditions for a load/use hazard
 	E_icode in { IMRMOVL, IPOPL } &&
